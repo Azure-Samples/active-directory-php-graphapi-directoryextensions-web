@@ -27,9 +27,8 @@ Windows Azure Active Directory Graph Sample
     <br/><br/>
     <a href="DisplayExtensions.php"><b>Extension Management</b></a>
     <br/><br/>
-    <!--<a href="DisplayGroups.php"><b>Group Management</b></a>
-    <br/><br/>
-    <a href="GetChanges.php"><b>Synchronize Changes</b></a>-->
+    <a href="DisplayApplications.php"><b>View Applications</b></a>
+    <br/>
 </p>
 </BODY>
 </HTML>
