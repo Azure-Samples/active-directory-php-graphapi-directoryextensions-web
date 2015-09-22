@@ -1,3 +1,9 @@
+---
+services:
+platforms:
+author: azure
+---
+
 #Overview
 Directory extensions enables application developers to extend the directory and develop richer applications without worrying about the limitations imposed by an external store. This preview provides REST interfaces for an application to register, unregister, enumerate, read, write, and filter by extension values. Applications that register extensions in the directory and are referenced from all the tenants consenting to that Application. Once a customer tenant has consented to an Application (even for read) the extensions registered on that Application are available in the consenting tenant for reading/writing by any Application that has the appropriate access. If the app developer wants to add more extension attributes, she can update her Application (in her developer tenant) and any tenants that are currently consented to this Application will instantly be enabled for the new attributes. If consent is removed, if the extension is deleted, or if the Application is deleted, the extension values will no longer be accessible on the corresponding directory objects.
 
