@@ -14,13 +14,18 @@ Currently “User”, “Group”, “TenantDetail”, “Device”, “Applicat
 
 ## Registering an Extension
 Let’s walk through an example. Contoso has built an OrgChart application and wants to allow users to make Skype calls from it. AAD does not expose a SkypeID user property. The OrgChart developer could use a separate store such as SQL Azure to store a record for each user’s SkypeID. Instead, the developer registers a String extension on the User object in his tenant. He does this by creating an “extensionProperty” on the Application using Graph API.
+
+```
 POST https://graph.windows.net/contoso.com/applications/<applicationObjectID>/extensionProperties?api-version=1.21-preview 
 {
 “name”: “skypeId”,
 “dataType”: “String”,
 “targetObjects”: [“User”]
 }
+```
+
 If the operation is successful, it will return 201 along with the fully qualified extension property name to be used for updating the intended types.
+```
 201 Created
 {
 “objectId”: “5ea3a29b-8efd-46bf-9dc7-f226e839d146”,
@@ -29,29 +34,40 @@ If the operation is successful, it will return 201 along with the fully qualifie
 “dataType”: “String”,         
 “targetObjects”: [“User”]
 }
- 
+```
+
 ## Viewing Extensions Registered by your Application
 You can view extensions registered by your application by issuing a GET of the extension properties of the application. This will provide object ID, data type, and target objects for each extension registered by the application.
+```
 GET https://graph.windows.net/contoso.com/applications/<applicationObjectID>/extensionProperties?api-version=1.21-preview
+```
 
 ## Unregistering an Extension
 You can unregister an extension registered by your application by issuing a DELETE of the extension object ID as follows:
+```
 DELETE https://graph.windows.net/contoso.com/applications/<applicationObjectID>/extensionProperties/<extensionObjectID>?api-version=1.21-preview
+```
 
 ## Writing Extension Values
 Once this application is consented by the admin, any user in the tenant can be updated to include this new property. For example,
+```
 PATCH https://graph.windows.net/contoso.com/users/joe@contoso.com?api-version=1.21-preview 
 {
 “extension_d8dde29f1095422e91537a6cb22a2f74_skypeId”: “joe.smith”
 }
+```
+
 The server will return a 204 if user was successfully updated. The extension value can be removed by sending the same PATCH request with “null” value.
+```
 PATCH https://graph.windows.net/contoso.com/users/joe@contoso.com?api-version=1.21-preview 
 {
 “extension_d8dde29f1095422e91537a6cb22a2f74_skypeId”: null
 }
+```
 
 ## Reading Extension Values
 When directory objects are retrieved, they automatically include the extension values. For example:
+```
 GET https://graph.windows.net/contoso.com/users/joe@contoso.com?api-version=1.21-preview 
 200 OK
 {
@@ -63,15 +79,18 @@ GET https://graph.windows.net/contoso.com/users/joe@contoso.com?api-version=1.21
 “accountEnabled”: “True” ,
 “extension_d8dde29f1095422e91537a6cb22a2f74_skypeId”: “joe.smith”
 }
+```
  
 ## Filtering by Extension Values
 The extension values can also be used as a part of $filter to search directory similar to any existing property. For example:
+```
 GET https://graph.windows.net/contoso.com/users/joe@contoso.com?api-version=1.21-preview&$filter=extension_d8dde29f1095422e91537a6cb22a2f74_skypeId eq 'joe.smith'
+```
+
 Prefix searches on extensions are limited to 71 characters for string searches and 207 bytes for searches on binary extensions.
 
 ## Sample Code
 We have published a couple of samples to GitHub to showcase and illustrate the use of directory extensions. We plan to enhance them based on your feedback and as the feature evolves
-
 
 ## PHP Sample
 https://github.com/Azure-Samples/active-directory-php-graphapi-directoryextensions-web
@@ -79,12 +98,14 @@ This sample shows how to create directory extensions and use them on users of Az
 
 The "Client ID" for the application should be used as $appPrincipalId and a new key can be created using "keys" section. The value generated must be used for $password.
 
-$appObjectId is the unique object identifier of the application. This can be obtained by using "View Applications" link in the home page. That page will display all the applications defined in the current tenant including the appPrincipalId and the objectId.
+```$appObjectId``` is the unique object identifier of the application. This can be obtained by using "View Applications" link in the home page. That page will display all the applications defined in the current tenant including the appPrincipalId and the objectId.
 
-$skypeExtension can be updated once an extension is created with it's fully qualified name.
+```$skypeExtension``` can be updated once an extension is created with it's fully qualified name.
 
+```
 public static $appTenantDomainName = 'graphdir1.onMicrosoft.com'; --> Name of the tenant or any verified domain. 
 public static $appPrincipalId = '118473c2-7619-46e3-a8e4-6da8d5f56e12';
 public static $appObjectId = 'fe82d9ae-b178-41f4-bf3f-8c4d7c35736e';
 public static $password = 'hOrJ0r0TZ4GQ3obp+vk3FZ7JBVP+TX353kNo6QwNq7Q=';
 public static $skypeExtension = 'extension_118473c2761946e3a8e46da8d5f56e12_skypeId';
+```
