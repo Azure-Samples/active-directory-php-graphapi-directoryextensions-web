@@ -1,11 +1,10 @@
 ---
-services:
-platforms:
-author: azure
+services: active-directory
+platforms: php
+author: dstrockis
 ---
 
 # Using Azure AD Graph API directory extensions in a PHP web app
-==========================
 
 ## Overview
 Directory extensions enables application developers to extend the directory and develop richer applications without worrying about the limitations imposed by an external store. This preview provides REST interfaces for an application to register, unregister, enumerate, read, write, and filter by extension values. Applications that register extensions in the directory and are referenced from all the tenants consenting to that Application. Once a customer tenant has consented to an Application (even for read) the extensions registered on that Application are available in the consenting tenant for reading/writing by any Application that has the appropriate access. If the app developer wants to add more extension attributes, she can update her Application (in her developer tenant) and any tenants that are currently consented to this Application will instantly be enabled for the new attributes. If consent is removed, if the extension is deleted, or if the Application is deleted, the extension values will no longer be accessible on the corresponding directory objects.
@@ -75,8 +74,8 @@ We have published a couple of samples to GitHub to showcase and illustrate the u
 
 
 ## PHP Sample
-https://github.com/WindowsAzureAD/WindowsAzureAD-GraphAPI-Sample-PHP
-This sample shows how to create directory extensions and use them on users of Windows Azure Active Directory. Settings.php contains the following information for a predefined tenant that should be updated to the developer's tenant to have write permissions using "Manage Access" option and selecting "Single sign-on, read and write directory data" access for your application.
+https://github.com/Azure-Samples/active-directory-php-graphapi-directoryextensions-web
+This sample shows how to create directory extensions and use them on users of Azure Active Directory. Settings.php contains the following information for a predefined tenant that should be updated to the developer's tenant to have write permissions using "Manage Access" option and selecting "Single sign-on, read and write directory data" access for your application.
 
 The "Client ID" for the application should be used as $appPrincipalId and a new key can be created using "keys" section. The value generated must be used for $password.
 
