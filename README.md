@@ -1,7 +1,7 @@
 ---
 services: active-directory
 platforms: php
-author: dstrockis
+author: brandwe
 ---
 
 # Using Azure AD Graph API directory extensions in a PHP web app
